@@ -351,7 +351,6 @@ public class Asuransi {
     }
 
     public static void produk(Produk data, Nasabah nasabah) {
-//        HashMap<String,Produk> temp = new HashMap<>();
         LocalDate today = LocalDate.now();
         Scanner inp = new Scanner(System.in);
         Kendaraan kendaraan;
@@ -367,7 +366,6 @@ public class Asuransi {
 
                 System.out.println("Jenis Kendaraan : ");
                 jenisKendaraan = inp.next();
-//                jenisKendaraan.toLowerCase();
                 if (!(jenisKendaraan.equals("Mobil") || jenisKendaraan.equals("Motor"))) {
                     System.out.println(" mohon Input (mobil / motor)");
                     continue;
