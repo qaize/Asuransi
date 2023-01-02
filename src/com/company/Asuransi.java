@@ -253,7 +253,7 @@ public class Asuransi {
                 Nasabah nasabah = (Nasabah) nsb.getValue();
                 System.out.printf(
                         "No : %s, %s %s, %s, %s (%s), %s,\nNoKTP : %s,Status di KK : %s, Payment Method : %s " +
-                                "\n =========================================================================%n",
+                                "\n=========================================================================%n",
                         nasabah.getNoNasabah(), nasabah.getNamaDpn(), nasabah.getNamaBlkng(),
                         nasabah.getJenisKelamin().getKelamin(), Helper.FormatTanggal(nasabah.getTglLahir(), "dd MMMM yyyy"), nasabah.getTempatLahir(),
                         nasabah.getPerkerjaan(), nasabah.getNoKtp(), nasabah.getStatusDiKK().getLabel(),
@@ -273,7 +273,7 @@ public class Asuransi {
                         System.out.println("Data Kostumer Tidak Tersedia, coba lagi");
                         continue;
                     }
-                    if (nasabah.getHashValidateProduk().isEmpty()) {
+                    if (!(nasabah.getHashValidateProduk().size() == listProduk.size())) {
                         System.out.println("Produk yang tersedia untuk " + noKostumer);
                         System.out.println("==========================================================");
                         nasabah.printProdukSisa();
@@ -422,7 +422,7 @@ public class Asuransi {
                 }
             }
 
-            nasabah.setListPolisNasabah(new Polis(nasabah, kendaraan, data, today, listiuran));
+            nasabah.setListPolisNasabah(new Polis(nasabah, kendaraan, data, LocalDate.now(), listiuran));
             nasabah.setHashValidateProduk(data.getNamaProduk(), data);
         } else if (data.getTanggunganAsuransi().getLabel().equals("Keluarga")) {
             String noCostumerTertanggung = "";
@@ -432,7 +432,7 @@ public class Asuransi {
                 if (!(listNasabah.containsKey(noCostumerTertanggung))) {
                     System.out.println("Data costumer tidak tersedia");
                 }
-            } while (listNasabah.containsKey(noCostumerTertanggung));
+            } while (!listNasabah.containsKey(noCostumerTertanggung));
 
             if (data.getNamaProduk().equals("Sehat bersama")) {
                 if (usia > 0 && usia < 20) {
@@ -497,7 +497,7 @@ public class Asuransi {
                 }
 
             }
-            nasabah.setListPolisNasabah(new Polis(nasabah, data, getNasabah(noCostumerTertanggung), today, data.getManfaat(), listiuran));
+            nasabah.setListPolisNasabah(new Polis(nasabah, data, getNasabah(noCostumerTertanggung), LocalDate.now(), data.getManfaat(), listiuran));
             nasabah.setHashValidateProduk(data.getNamaProduk(), data);
         } else {
 
@@ -566,7 +566,7 @@ public class Asuransi {
                 }
 
             }
-            nasabah.setListPolisNasabah(new Polis(nasabah, data, nasabah, today, data.getManfaat(), listiuran));
+            nasabah.setListPolisNasabah(new Polis(nasabah, data, nasabah, LocalDate.now(), data.getManfaat(), listiuran));
             nasabah.setHashValidateProduk(data.getNamaProduk(), data);
 
         }
@@ -588,16 +588,13 @@ public class Asuransi {
                 FrekuensiPembayaran.TAHUNAN, "Mendapat ganti rugi sampai 100.000.000 bila terjadi sesuatu.", TanggunganAsuransi.SENDIRI);
         Produk pp = new Produk("Protection Plus", JenisProduk.KENDARAAN,
                 FrekuensiPembayaran.TAHUNAN, "Mendapat ganti rugi total lost apa bila terjadi sesuatu.", TanggunganAsuransi.SENDIRI);
-
         listProduk.add(sb);
         listProduk.add(se);
         listProduk.add(lk);
         listProduk.add(ls);
         listProduk.add(pt);
         listProduk.add(pp);
-
     }
-
     public static Produk getProdukByNama(String nama) {
         for (Produk prd : listProduk
         ) {
